@@ -95,6 +95,10 @@ double Neuron::activationFunction(const double &x)
 			result = ReLU(x);
 			break;
 
+		case LEAKYRELU:
+			result = LeakyReLU(x);
+			break;
+
 		default:
 			cerr << "No valid activation function!" << endl;
 			break;
@@ -118,6 +122,10 @@ double Neuron::activationFunctionDerivative(const double & x)
 
 		case RELU:
 			result = ReLU(x, true);
+			break;
+
+		case LEAKYRELU:
+			result = LeakyReLU(x, true);
 			break;
 
 		default:
@@ -144,6 +152,26 @@ double Neuron::ReLU(const double &x, const bool &derivative)
 	else {
 		if (x < 0)
 			result = 0.0;
+		else
+			result = x;
+	}
+
+	return result;
+}
+
+double Neuron::LeakyReLU(const double & x, const bool & derivative)
+{
+	double result = 0.0;
+	double alphaParameter = 0.01;
+	if (derivative) {
+		if (x < 0)
+			result = alphaParameter;
+		else
+			result = 1.0;
+	}
+	else {
+		if (x < 0)
+			result = alphaParameter * x;
 		else
 			result = x;
 	}

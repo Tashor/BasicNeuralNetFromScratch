@@ -58,8 +58,8 @@ int main() {
 
 	// dataStructure is a vector with { numberOfInputs, numberOfOutputs }
 	// hiddenLayerStructure is a vector with { numberOfNeuronsLayer1, numberOfNeuronsLayer2, ... }, hiddenLayerStructure.size() == number of hidden Layers
-	// the last parameter is the activation function -> SIGMOID, TANH, and RELU are currently implemented
-	NeuralNet myNeuralNet(dataStructure, hiddenLayerStructure, RELU);
+	// the last parameter is the activation function -> SIGMOID, TANH, RELU and LEAKYRELU are currently implemented
+	NeuralNet myNeuralNet(dataStructure, hiddenLayerStructure, LEAKYRELU);
 
 	vector<double> results;
 	vector<double> fullResults;
@@ -79,7 +79,7 @@ int main() {
 
 			myNeuralNet.backPropagation(targetValues[currentData]);
 		}
-		if (cycle % 500 == 0) {
+		if (cycle % 1000 == 0) {
 			cout << "Cycle: " << cycle << endl;
 			showVectorValues(fullResults, fullTargetValues);
 		}

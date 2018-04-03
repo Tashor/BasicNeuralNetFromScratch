@@ -38,8 +38,8 @@ NeuralNet::NeuralNet(const vector<unsigned int> &dataStructure, const vector<uns
 			//cout << "Created Neuron!" << endl;
 		}
 
-		// set bias outputValue to -1.0 (last neuron)
-		m_layers[layerNumber].back().setOutputValue(-1.0);
+		// set bias outputValue to 1.0 (last neuron)
+		m_layers[layerNumber].back().setOutputValue(1.0);
 	}
 }
 

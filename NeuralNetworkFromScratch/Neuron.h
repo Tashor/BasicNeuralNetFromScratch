@@ -8,6 +8,7 @@
 #define SIGMOID 1
 #define TANH 2
 #define RELU 3
+#define LEAKYRELU 4
 
 using namespace std;
 
@@ -38,6 +39,7 @@ private:
 	double activationFunctionDerivative(const double &x);
 	static double sigmoid(const double &x);
 	static double ReLU(const double &x, const bool &derivative = false);
+	static double LeakyReLU(const double &x, const bool &derivative = false);
 	static double randomStartValue();
 	static double learningRate;
 	static double momentum;
