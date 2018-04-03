@@ -5,6 +5,9 @@
 #include <vector>
 #include <iostream>
 
+#define SIGMOID 1
+#define TANH 2
+#define RELU 3
 
 using namespace std;
 
@@ -19,8 +22,9 @@ struct Weights {
 class Neuron
 {
 public:
-	Neuron(const unsigned int &numberOfOutputs, const unsigned int &neuronIndexInLayer);
+	Neuron(const unsigned int &numberOfOutputs, const unsigned int &neuronIndexInLayer, const unsigned int &chosenActivationFunction);
 	~Neuron();
+
 	void setOutputValue(const double &outputvalue);
 	double getOutputValue() const;
 	void feedForward(const Layer &previousLayer);
@@ -30,12 +34,14 @@ public:
 	void updateWeights(Layer &previousLayer);
 
 private:
-	static double activationFunction(const double &x);
-	static double activationFunctionDerivative(const double &x);
+	double activationFunction(const double &x);
+	double activationFunctionDerivative(const double &x);
 	static double sigmoid(const double &x);
+	static double ReLU(const double &x, const bool &derivative = false);
 	static double randomStartValue();
 	static double learningRate;
 	static double momentum;
+	unsigned int m_activationFunction;
 	double m_outputValue;
 	double m_outputSum;
 	vector<Weights> m_outputWeights;

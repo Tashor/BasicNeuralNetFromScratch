@@ -6,7 +6,7 @@
 class NeuralNet
 {
 public:
-	NeuralNet(const vector<unsigned int> &dataStructure, const vector<unsigned int> &hiddenLayerStructure);
+	NeuralNet(const vector<unsigned int> &dataStructure, const vector<unsigned int> &hiddenLayerStructure, const unsigned int chosenActivationFunction = SIGMOID);
 	~NeuralNet();
 	void feedForward(const vector<double> &inputValues);
 	void backPropagation(const vector<double> &targetValues);

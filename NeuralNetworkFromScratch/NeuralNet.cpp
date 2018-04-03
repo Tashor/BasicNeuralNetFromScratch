@@ -2,7 +2,7 @@
 
 
 
-NeuralNet::NeuralNet(const vector<unsigned int> &dataStructure, const vector<unsigned int> &hiddenLayerStructure) {
+NeuralNet::NeuralNet(const vector<unsigned int> &dataStructure, const vector<unsigned int> &hiddenLayerStructure, const unsigned int chosenActivationFunction) {
 	
 	// combine input-, output- and hidden layers
 	vector<unsigned int> fullNetStructure;
@@ -34,12 +34,12 @@ NeuralNet::NeuralNet(const vector<unsigned int> &dataStructure, const vector<uns
 		//cout << "Layer " << layerNumber << ":" << endl;
 		// create neurons in current layer + bias (<=)
 		for (unsigned int neuronNumber = 0; neuronNumber <= fullNetStructure[layerNumber]; neuronNumber++) {
-			m_layers[layerNumber].push_back(Neuron(numberOfOutputs, neuronNumber));
+			m_layers[layerNumber].push_back(Neuron(numberOfOutputs, neuronNumber, chosenActivationFunction));
 			//cout << "Created Neuron!" << endl;
 		}
 
-		// set bias outputValue to 1.0 (last neuron)
-		m_layers[layerNumber].back().setOutputValue(1.0);
+		// set bias outputValue to -1.0 (last neuron)
+		m_layers[layerNumber].back().setOutputValue(-1.0);
 	}
 }
 

@@ -1,9 +1,9 @@
 #include "Neuron.h"
 
-double Neuron::learningRate = 0.2;
+double Neuron::learningRate = 0.01;
 double Neuron::momentum = 0.9;
 
-Neuron::Neuron(const unsigned int &numberOfOutputs, const unsigned int &neuronIndexInLayer)
+Neuron::Neuron(const unsigned int &numberOfOutputs, const unsigned int &neuronIndexInLayer, const unsigned int &chosenActivationFunction)
 {
 	for (unsigned int i = 0; i < numberOfOutputs; i++) {
 		m_outputWeights.push_back(Weights());
@@ -12,6 +12,7 @@ Neuron::Neuron(const unsigned int &numberOfOutputs, const unsigned int &neuronIn
 	}
 	m_outputValue = randomStartValue();
 	m_indexInLayer = neuronIndexInLayer;
+	m_activationFunction = chosenActivationFunction;
 	//cout << "Created " << m_outputWeights.size() << " outputs for neuron: " << m_indexInLayer << endl;
 }
 
@@ -79,19 +80,75 @@ void Neuron::updateWeights(Layer & previousLayer)
 
 double Neuron::activationFunction(const double &x)
 {
-	// sigmoid as activation function
-	return sigmoid(x);
+	double result = 0.0;
+	switch (m_activationFunction) 
+	{
+		case SIGMOID:	// sigmoid as activation function
+			result = sigmoid(x);
+			break;
+
+		case TANH:		// hyperbolic tangens as activation function
+			result = tanh(x);
+			break;
+
+		case RELU:
+			result = ReLU(x);
+			break;
+
+		default:
+			cerr << "No valid activation function!" << endl;
+			break;
+	}
+	return result;
 }
 
 double Neuron::activationFunctionDerivative(const double & x)
 {
-	// derivative of the sigmoid function
-	return sigmoid(x) * (1.0 - sigmoid(x));
+	double result = 0.0;
+
+	switch (m_activationFunction) 
+	{
+		case SIGMOID:	// derivative of the sigmoid function
+			result = sigmoid(x) * (1.0 - sigmoid(x));
+			break;
+
+		case TANH:		// derivative of the hyperbolic tangens function
+			result = 1.0 - tanh(x) * tanh(x);
+			break;
+
+		case RELU:
+			result = ReLU(x, true);
+			break;
+
+		default:
+			cerr << "No valid activation function!" << endl;
+			break;
+	}
+	return result;
 }
 
 double Neuron::sigmoid(const double &x)
 {
 	return 1.0 / (1 + exp(-x));
+}
+
+double Neuron::ReLU(const double &x, const bool &derivative)
+{
+	double result = 0.0;
+	if (derivative) {
+		if (x < 0)
+			result = 0.0;
+		else
+			result = 1.0;
+	}
+	else {
+		if (x < 0)
+			result = 0.0;
+		else
+			result = x;
+	}
+
+	return result;
 }
 
 double Neuron::randomStartValue()
